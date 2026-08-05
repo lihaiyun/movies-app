@@ -20,6 +20,15 @@ function toSafeUser(user) {
 export async function register(req, res) {
   const { name, email, password } = req.body;
 
+  const [existingUser] = await db
+    .select()
+    .from(users)
+    .where(eq(users.email, email));
+
+  if (existingUser) {
+    throw new AppError(409, "Email is already registered");
+  }
+
   const passwordHash = await bcrypt.hash(password, SALT_ROUNDS);
 
   const [user] = await db
