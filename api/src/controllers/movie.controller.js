@@ -2,6 +2,7 @@ import { desc, eq, ilike } from "drizzle-orm";
 import { db } from "../db/client.js";
 import { movies } from "../db/schema.js";
 import { AppError } from "../lib/errors.js";
+import { localNow } from "../lib/date.js";
 
 export async function list(req, res) {
   const { search } = req.query;
@@ -43,7 +44,7 @@ export async function update(req, res) {
 
   const [movie] = await db
     .update(movies)
-    .set(req.body)
+    .set({ ...req.body, updatedAt: localNow() })
     .where(eq(movies.id, id))
     .returning();
 
