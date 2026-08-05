@@ -54,6 +54,23 @@ export async function upsert(req, res) {
   res.json({ value: rating.value, review: rating.review ?? "", ...summary });
 }
 
+export async function remove(req, res) {
+  const movieId = Number(req.params.id);
+  const userId = req.user.id;
+
+  const [deleted] = await db
+    .delete(ratings)
+    .where(and(eq(ratings.movieId, movieId), eq(ratings.userId, userId)))
+    .returning();
+
+  if (!deleted) {
+    throw new AppError(404, "Rating not found");
+  }
+
+  const summary = await getSummary(movieId);
+  res.json({ ...summary });
+}
+
 export async function listForMovie(req, res) {
   const movieId = Number(req.params.id);
 

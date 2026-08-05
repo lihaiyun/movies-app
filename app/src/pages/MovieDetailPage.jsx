@@ -18,6 +18,7 @@ export function MovieDetailPage() {
   const [myReview, setMyReview] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
     api
@@ -73,6 +74,24 @@ export function MovieDetailPage() {
       loadReviews();
     } finally {
       setSubmitting(false);
+    }
+  }
+
+  async function handleDelete() {
+    setDeleting(true);
+    try {
+      const res = await api.delete(`/movies/${id}/rating`);
+      setMovie((prev) => ({
+        ...prev,
+        averageRating: res.data.averageRating,
+        ratingCount: res.data.ratingCount,
+      }));
+      setMyValue(null);
+      setMyReview("");
+      setSaved(false);
+      loadReviews();
+    } finally {
+      setDeleting(false);
     }
   }
 
@@ -155,10 +174,20 @@ export function MovieDetailPage() {
                 <Button
                   size="sm"
                   onClick={handleSubmit}
-                  disabled={!myValue || submitting}
+                  disabled={!myValue || submitting || deleting}
                 >
                   {submitting ? "Saving..." : "Submit"}
                 </Button>
+                {myValue != null && (
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={handleDelete}
+                    disabled={submitting || deleting}
+                  >
+                    {deleting ? "Deleting..." : "Delete rating"}
+                  </Button>
+                )}
                 {saved && (
                   <span className="text-sm text-muted-foreground">Saved!</span>
                 )}
