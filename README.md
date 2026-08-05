@@ -58,13 +58,12 @@ Users can browse movies, submit ratings and reviews, while administrators can ma
 | Frontend  | Vercel          |
 | Backend   | Render          |
 | Database  | Neon PostgreSQL |
-| Images    | Cloudinary      |
 
 ---
 
 # Getting Started
 
-Implemented so far: registration/login/logout, movie browsing + search, and admin movie CRUD (poster is a URL field for now). Ratings/reviews and Cloudinary poster uploads are not yet implemented.
+Implemented so far: registration/login/logout, movie browsing + search, and admin movie CRUD (poster is a URL field for now). Ratings/reviews are not yet implemented.
 
 ## Backend (`api/`)
 

@@ -27,6 +27,5 @@ This is planned as a full-stack movie catalogue app with two independent halves:
 | Frontend | Vercel |
 | Backend | Render |
 | Database | Neon PostgreSQL |
-| Images | Cloudinary |
 
-This implies the backend and frontend are deployed and configured as separate services, and image uploads should go through Cloudinary rather than local/server disk storage.
+This implies the backend and frontend are deployed and configured as separate services.
