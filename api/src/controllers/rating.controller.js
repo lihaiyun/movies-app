@@ -80,6 +80,7 @@ export async function listForMovie(req, res) {
       value: ratings.value,
       review: ratings.review,
       updatedAt: ratings.updatedAt,
+      userId: ratings.userId,
       userName: users.name,
     })
     .from(ratings)
