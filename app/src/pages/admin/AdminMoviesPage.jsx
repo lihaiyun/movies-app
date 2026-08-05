@@ -46,7 +46,7 @@ export function AdminMoviesPage() {
           <TableRow>
             <TableHead>Title</TableHead>
             <TableHead>Genre</TableHead>
-            <TableHead>Year</TableHead>
+            <TableHead>Release Date</TableHead>
             <TableHead className="text-right">Actions</TableHead>
           </TableRow>
         </TableHeader>
@@ -55,7 +55,7 @@ export function AdminMoviesPage() {
             <TableRow key={movie.id}>
               <TableCell>{movie.title}</TableCell>
               <TableCell>{movie.genre}</TableCell>
-              <TableCell>{movie.releaseYear}</TableCell>
+              <TableCell>{movie.releaseDate}</TableCell>
               <TableCell className="space-x-2 text-right">
                 <Button asChild variant="outline" size="sm">
                   <Link to={`/admin/movies/${movie.id}/edit`}>Edit</Link>

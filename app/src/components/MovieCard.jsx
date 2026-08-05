@@ -22,7 +22,7 @@ export function MovieCard({ movie }) {
           <CardTitle className="line-clamp-2 text-base">{movie.title}</CardTitle>
         </CardHeader>
         <CardContent className="pt-0 pb-6 text-sm text-muted-foreground">
-          {movie.genre} · {movie.releaseYear}
+          {movie.genre} · {movie.releaseDate}
         </CardContent>
       </Card>
     </Link>

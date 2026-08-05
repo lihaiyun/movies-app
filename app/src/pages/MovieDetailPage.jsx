@@ -52,7 +52,7 @@ export function MovieDetailPage() {
         <div>
           <h1 className="text-3xl font-semibold">{movie.title}</h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            {movie.genre} · {movie.releaseYear}
+            {movie.genre} · {movie.releaseDate}
           </p>
           <p className="mt-4 whitespace-pre-wrap">{movie.description}</p>
         </div>

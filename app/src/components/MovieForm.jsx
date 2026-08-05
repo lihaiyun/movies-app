@@ -20,7 +20,7 @@ export function MovieForm({ defaultValues, onSubmit, submitLabel }) {
       title: "",
       description: "",
       genre: "",
-      releaseYear: new Date().getFullYear(),
+      releaseDate: new Date().toISOString().slice(0, 10),
       posterUrl: "",
     },
   });
@@ -73,12 +73,12 @@ export function MovieForm({ defaultValues, onSubmit, submitLabel }) {
 
           <FormField
             control={form.control}
-            name="releaseYear"
+            name="releaseDate"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Release Year</FormLabel>
+                <FormLabel>Release Date</FormLabel>
                 <FormControl>
-                  <Input type="number" {...field} />
+                  <Input type="date" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

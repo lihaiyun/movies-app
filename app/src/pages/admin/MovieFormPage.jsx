@@ -19,7 +19,7 @@ export function MovieFormPage() {
           title: res.data.title,
           description: res.data.description,
           genre: res.data.genre,
-          releaseYear: res.data.releaseYear,
+          releaseDate: res.data.releaseDate,
           posterUrl: res.data.posterUrl ?? "",
         })
       )

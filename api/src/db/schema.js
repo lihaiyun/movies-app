@@ -3,7 +3,7 @@ import {
   serial,
   text,
   varchar,
-  integer,
+  date,
   timestamp,
   pgEnum,
 } from "drizzle-orm/pg-core";
@@ -24,7 +24,7 @@ export const movies = pgTable("movies", {
   title: varchar("title", { length: 255 }).notNull(),
   description: text("description").notNull(),
   genre: varchar("genre", { length: 100 }).notNull(),
-  releaseYear: integer("release_year").notNull(),
+  releaseDate: date("release_date").notNull(),
   posterUrl: text("poster_url"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
 });
