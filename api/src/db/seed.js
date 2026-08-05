@@ -186,6 +186,96 @@ const seedRatingsData = [
     value: 4,
     review: "Beautifully shot with unforgettable music, though the ending is bittersweet.",
   },
+  {
+    userEmail: "haiyun@example.com",
+    movieTitle: "Dear You 给阿嬷的情书",
+    value: 5,
+    review: "Made me call my own grandma right after watching. So tender and sincere.",
+  },
+  {
+    userEmail: "haiyun@example.com",
+    movieTitle: "Blades Of The Guardians 镖人: 风起大漠",
+    value: 4,
+    review: "The all-star cast delivers, and the desert setting adds a fresh visual flavour to the genre.",
+  },
+  {
+    userEmail: "haiyun@example.com",
+    movieTitle: "Spider-Man: Across The Spider-Verse",
+    value: 5,
+    review: "The animation style alone is worth the ticket price. An instant favourite.",
+  },
+  {
+    userEmail: "haiyun@example.com",
+    movieTitle: "Minions & Monsters",
+    value: 3,
+    review: "Enjoyable popcorn fun, though it leans a bit too hard on slapstick this time.",
+  },
+  {
+    userEmail: "haiyun@example.com",
+    movieTitle: "F1 The Movie",
+    value: 4,
+    review: "Genuinely tense race scenes — you can tell they filmed at real Grand Prix events.",
+  },
+  {
+    userEmail: "chloe.lim@example.com",
+    movieTitle: "Spider-Man: Across The Spider-Verse",
+    value: 4,
+    review: "Ambitious and gorgeous, though the cliffhanger ending left me wanting the next chapter sooner.",
+  },
+  {
+    userEmail: "chloe.lim@example.com",
+    movieTitle: "Dog Man",
+    value: 3,
+    review: "Harmless family fun — the kids in the theatre were laughing the whole way through.",
+  },
+  {
+    userEmail: "chloe.lim@example.com",
+    movieTitle: "The Super Mario Galaxy Movie",
+    value: 4,
+    review: "A love letter to the games, packed with easter eggs longtime fans will appreciate.",
+  },
+  {
+    userEmail: "daniel.wong@example.com",
+    movieTitle: "Minions & Monsters",
+    value: 2,
+    review: "Felt like a retread of jokes we've already seen in the earlier Despicable Me films.",
+  },
+  {
+    userEmail: "daniel.wong@example.com",
+    movieTitle: "Dog Man",
+    value: 3,
+    review: "Lightweight and silly, exactly what it promises to be — good for a lazy weekend watch.",
+  },
+  {
+    userEmail: "alice.tan@example.com",
+    movieTitle: "Blades Of The Guardians 镖人: 风起大漠",
+    value: 5,
+    review: "Yuen Woo Ping's choreography is on full display here — easily one of the year's best action films.",
+  },
+  {
+    userEmail: "alice.tan@example.com",
+    movieTitle: "F1 The Movie",
+    value: 4,
+    review: "Brad Pitt sells the washed-up-driver comeback arc well, and the racing footage is spectacular.",
+  },
+  {
+    userEmail: "alice.tan@example.com",
+    movieTitle: "La La Land",
+    value: 5,
+    review: "Rewatched this for the third time and it still gives me chills during 'City of Stars'.",
+  },
+  {
+    userEmail: "benjamin.koh@example.com",
+    movieTitle: "The Super Mario Galaxy Movie",
+    value: 3,
+    review: "Fun for the kids but plays it a little too safe compared to the first film.",
+  },
+  {
+    userEmail: "benjamin.koh@example.com",
+    movieTitle: "Minions & Monsters",
+    value: 3,
+    review: "The monster mashup gimmick is amusing but wears thin by the halfway mark.",
+  },
 ];
 
 async function seed() {
