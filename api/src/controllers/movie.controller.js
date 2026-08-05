@@ -16,7 +16,7 @@ export async function list(req, res) {
     .select()
     .from(movies)
     .where(where)
-    .orderBy(desc(movies.createdAt))
+    .orderBy(desc(movies.releaseDate))
     .limit(limit)
     .offset(offset);
 
