@@ -76,7 +76,7 @@ npm run db:seed         # (optional) seeds sample movies, users and ratings/revi
 npm run dev             # starts the API on http://localhost:5000
 ```
 
-The command `npm run db:seed` creates an `admin@moviesapp.com` account (password: `password123`) along with sample users and movies.
+The command `npm run db:seed` creates an `admin@moviesapp.com` account along with sample users, movies and ratings.
 
 ## Frontend (`app/`)
 
