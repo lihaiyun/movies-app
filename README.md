@@ -4,6 +4,8 @@ A modern full stack application built with **Node.js** and **React**.
 
 Users can browse movies, submit ratings and reviews, while administrators can manage the movie catalogue.
 
+🔗 **Live demo:** [movies-app-six-zeta.vercel.app](https://movies-app-six-zeta.vercel.app) · **API:** [movies-api-bc6e.onrender.com/api](https://movies-api-bc6e.onrender.com/api)
+
 ---
 
 # Features
@@ -78,6 +80,8 @@ npm run dev             # starts the API on http://localhost:5000
 
 The command `npm run db:seed` creates an `admin@moviesapp.com` account along with sample users, movies and ratings.
 
+Other scripts: `npm run db:generate` / `npm run db:migrate` (Drizzle migrations), `npm run db:studio` (Drizzle Studio), `npm start` (production start).
+
 ## Frontend (`app/`)
 
 ```bash
@@ -86,3 +90,5 @@ npm install
 cp .env.example .env   # VITE_API_URL defaults to http://localhost:5000/api
 npm run dev             # starts Vite on http://localhost:5173
 ```
+
+Other scripts: `npm run build` (production build), `npm run preview` (preview built app), `npm run lint` (oxlint).
