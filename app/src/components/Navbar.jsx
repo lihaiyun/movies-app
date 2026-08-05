@@ -21,7 +21,7 @@ export function Navbar() {
         <div className="flex items-center gap-4">
           {user?.role === "admin" && (
             <Link to="/admin/movies" className="text-sm font-medium hover:underline">
-              Admin
+              Manage
             </Link>
           )}
 
