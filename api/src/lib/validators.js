@@ -26,3 +26,11 @@ export const movieSchema = z.object({
     .optional()
     .or(z.literal("")),
 });
+
+export const ratingSchema = z.object({
+  value: z
+    .number()
+    .int("Rating must be a whole number")
+    .min(1, "Rating must be between 1 and 5")
+    .max(5, "Rating must be between 1 and 5"),
+});

@@ -1,11 +1,13 @@
 import {
   pgTable,
   serial,
+  integer,
   text,
   varchar,
   date,
   timestamp,
   pgEnum,
+  unique,
 } from "drizzle-orm/pg-core";
 
 export const roleEnum = pgEnum("role", ["user", "admin"]);
@@ -30,3 +32,20 @@ export const movies = pgTable("movies", {
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
+
+export const ratings = pgTable(
+  "ratings",
+  {
+    id: serial("id").primaryKey(),
+    movieId: integer("movie_id")
+      .notNull()
+      .references(() => movies.id, { onDelete: "cascade" }),
+    userId: integer("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    value: integer("value").notNull(),
+    createdAt: timestamp("created_at").notNull().defaultNow(),
+    updatedAt: timestamp("updated_at").notNull().defaultNow(),
+  },
+  (table) => [unique().on(table.userId, table.movieId)]
+);

@@ -1,8 +1,34 @@
-import { desc, eq, ilike } from "drizzle-orm";
+import { desc, eq, ilike, inArray, sql } from "drizzle-orm";
 import { db } from "../db/client.js";
-import { movies } from "../db/schema.js";
+import { movies, ratings } from "../db/schema.js";
 import { AppError } from "../lib/errors.js";
 import { localNow } from "../lib/date.js";
+
+async function attachRatingSummaries(movieList) {
+  const ids = movieList.map((movie) => movie.id);
+  if (ids.length === 0) return movieList;
+
+  const summaries = await db
+    .select({
+      movieId: ratings.movieId,
+      average: sql`avg(${ratings.value})`,
+      count: sql`count(*)`,
+    })
+    .from(ratings)
+    .where(inArray(ratings.movieId, ids))
+    .groupBy(ratings.movieId);
+
+  const summaryByMovieId = new Map(summaries.map((s) => [s.movieId, s]));
+
+  return movieList.map((movie) => {
+    const summary = summaryByMovieId.get(movie.id);
+    return {
+      ...movie,
+      averageRating: summary ? Number(summary.average) : null,
+      ratingCount: summary ? Number(summary.count) : 0,
+    };
+  });
+}
 
 export async function list(req, res) {
   const { search } = req.query;
@@ -20,7 +46,7 @@ export async function list(req, res) {
     .limit(limit)
     .offset(offset);
 
-  res.json({ movies: results, page, limit });
+  res.json({ movies: await attachRatingSummaries(results), page, limit });
 }
 
 export async function getById(req, res) {
@@ -31,7 +57,8 @@ export async function getById(req, res) {
     throw new AppError(404, "Movie not found");
   }
 
-  res.json(movie);
+  const [withSummary] = await attachRatingSummaries([movie]);
+  res.json(withSummary);
 }
 
 export async function create(req, res) {

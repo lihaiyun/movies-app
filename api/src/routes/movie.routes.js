@@ -1,14 +1,22 @@
 import { Router } from "express";
 import * as movieController from "../controllers/movie.controller.js";
+import * as ratingController from "../controllers/rating.controller.js";
 import { requireAuth, requireAdmin } from "../middleware/auth.js";
 import { validate } from "../middleware/validate.js";
-import { movieSchema } from "../lib/validators.js";
+import { movieSchema, ratingSchema } from "../lib/validators.js";
 import { asyncHandler } from "../lib/asyncHandler.js";
 
 const router = Router();
 
 router.get("/", asyncHandler(movieController.list));
 router.get("/:id", asyncHandler(movieController.getById));
+router.get("/:id/rating", requireAuth, asyncHandler(ratingController.getMine));
+router.put(
+  "/:id/rating",
+  requireAuth,
+  validate(ratingSchema),
+  asyncHandler(ratingController.upsert)
+);
 router.post(
   "/",
   requireAuth,

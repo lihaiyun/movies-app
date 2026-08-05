@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { StarRating } from "@/components/StarRating";
 import { formatDate } from "@/lib/utils";
 
 export function MovieCard({ movie }) {
@@ -25,6 +26,14 @@ export function MovieCard({ movie }) {
         <CardContent className="pt-0 pb-6 text-sm text-muted-foreground">
           <p className="truncate">{movie.genre}</p>
           <p>{formatDate(movie.releaseDate)}</p>
+          {movie.averageRating != null && (
+            <div className="mt-2 flex items-center gap-1.5">
+              <StarRating value={movie.averageRating} size="size-3.5" />
+              <span className="text-xs">
+                {movie.averageRating.toFixed(1)} ({movie.ratingCount})
+              </span>
+            </div>
+          )}
         </CardContent>
       </Card>
     </Link>

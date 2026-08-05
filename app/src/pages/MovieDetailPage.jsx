@@ -2,12 +2,17 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { api } from "@/lib/api";
 import { Button } from "@/components/ui/button";
+import { StarRating } from "@/components/StarRating";
+import { useAuth } from "@/context/AuthContext";
 import { formatDate } from "@/lib/utils";
 
 export function MovieDetailPage() {
   const { id } = useParams();
+  const { user } = useAuth();
   const [movie, setMovie] = useState(null);
   const [error, setError] = useState(null);
+  const [myRating, setMyRating] = useState(null);
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     api
@@ -15,6 +20,33 @@ export function MovieDetailPage() {
       .then((res) => setMovie(res.data))
       .catch(() => setError("Movie not found"));
   }, [id]);
+
+  useEffect(() => {
+    if (!user) {
+      setMyRating(null);
+      return;
+    }
+
+    api
+      .get(`/movies/${id}/rating`)
+      .then((res) => setMyRating(res.data.value))
+      .catch(() => setMyRating(null));
+  }, [id, user]);
+
+  async function handleRate(value) {
+    setSubmitting(true);
+    try {
+      const res = await api.put(`/movies/${id}/rating`, { value });
+      setMyRating(res.data.value);
+      setMovie((prev) => ({
+        ...prev,
+        averageRating: res.data.averageRating,
+        ratingCount: res.data.ratingCount,
+      }));
+    } finally {
+      setSubmitting(false);
+    }
+  }
 
   if (error) {
     return (
@@ -55,7 +87,31 @@ export function MovieDetailPage() {
           <p className="mt-1 text-sm text-muted-foreground">
             {movie.genre} · {formatDate(movie.releaseDate)}
           </p>
+
+          <div className="mt-3 flex items-center gap-2">
+            <StarRating value={movie.averageRating ?? 0} />
+            {movie.averageRating != null ? (
+              <span className="text-sm text-muted-foreground">
+                {movie.averageRating.toFixed(1)} ({movie.ratingCount}{" "}
+                {movie.ratingCount === 1 ? "rating" : "ratings"})
+              </span>
+            ) : (
+              <span className="text-sm text-muted-foreground">No ratings yet</span>
+            )}
+          </div>
+
           <p className="mt-4 whitespace-pre-wrap">{movie.description}</p>
+
+          {user && (
+            <div className="mt-6">
+              <p className="mb-1 text-sm font-medium">Your rating</p>
+              <StarRating
+                value={myRating ?? 0}
+                interactive={!submitting}
+                onRate={handleRate}
+              />
+            </div>
+          )}
         </div>
       </div>
     </div>
