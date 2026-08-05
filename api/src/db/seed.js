@@ -1,6 +1,7 @@
 import "dotenv/config";
+import bcrypt from "bcrypt";
 import { db } from "./client.js";
-import { movies } from "./schema.js";
+import { movies, users, ratings } from "./schema.js";
 
 // Seed catalogue sourced from test/gv.txt
 const seedMovies = [
@@ -46,7 +47,7 @@ The film will be co-financed by Universal Pictures and Nintendo and will be rele
 The Super Mario Galaxy Movie is directed by returning filmmakers Aaron Horvath and Michael Jelenic, from a screenplay by returning screenwriter Matthew Fogel, with Brian Tyler returning to compose the score.`,
     genre: "Animation",
     releaseDate: "2026-04-01",
-    posterUrl: "https://media.gv.com.sg/imagesresize/img1398.jpg",
+    posterUrl: "https://media.gv.com.sg/imagesresize/img1362.jpg",
   },
   {
     title: "Dog Man",
@@ -74,10 +75,145 @@ The Super Mario Galaxy Movie is directed by returning filmmakers Aaron Horvath a
   },
 ];
 
+// Seed users — all share the password "password123"
+const seedUsers = [
+  {
+    name: "Admin User",
+    email: "admin@moviesapp.com",
+    role: "admin",
+  },
+  {
+    name: "Alice Tan",
+    email: "alice.tan@example.com",
+    role: "user",
+  },
+  {
+    name: "Benjamin Koh",
+    email: "benjamin.koh@example.com",
+    role: "user",
+  },
+  {
+    name: "Chloe Lim",
+    email: "chloe.lim@example.com",
+    role: "user",
+  },
+  {
+    name: "Daniel Wong",
+    email: "daniel.wong@example.com",
+    role: "user",
+  },
+];
+
+// Ratings/reviews are matched up to seeded movies and users by index below.
+const seedRatingsData = [
+  {
+    userEmail: "alice.tan@example.com",
+    movieTitle: "Dear You 给阿嬷的情书",
+    value: 5,
+    review:
+      "A heartfelt tribute to family and memory. The reveal about the letters had me in tears — beautifully acted.",
+  },
+  {
+    userEmail: "benjamin.koh@example.com",
+    movieTitle: "Dear You 给阿嬷的情书",
+    value: 4,
+    review:
+      "Touching family drama with a strong emotional core, though the pacing dragged a little in the middle.",
+  },
+  {
+    userEmail: "chloe.lim@example.com",
+    movieTitle: "Blades Of The Guardians 镖人: 风起大漠",
+    value: 4,
+    review:
+      "Solid martial arts spectacle — the desert cinematography and fight choreography are top notch.",
+  },
+  {
+    userEmail: "daniel.wong@example.com",
+    movieTitle: "Blades Of The Guardians 镖人: 风起大漠",
+    value: 3,
+    review: "Fun action but the plot felt a bit thin given the star power involved.",
+  },
+  {
+    userEmail: "alice.tan@example.com",
+    movieTitle: "Spider-Man: Across The Spider-Verse",
+    value: 5,
+    review: "Visually stunning and emotionally gripping. Miles Morales' journey keeps getting better.",
+  },
+  {
+    userEmail: "benjamin.koh@example.com",
+    movieTitle: "Spider-Man: Across The Spider-Verse",
+    value: 5,
+    review: "One of the best animated superhero films ever made. The multiverse concept is executed brilliantly.",
+  },
+  {
+    userEmail: "chloe.lim@example.com",
+    movieTitle: "Minions & Monsters",
+    value: 3,
+    review: "Silly and fun for the kids, but not as memorable as the earlier films in the franchise.",
+  },
+  {
+    userEmail: "daniel.wong@example.com",
+    movieTitle: "The Super Mario Galaxy Movie",
+    value: 4,
+    review: "A colorful, nostalgic romp through the Mario universe — great for fans of the games.",
+  },
+  {
+    userEmail: "alice.tan@example.com",
+    movieTitle: "Dog Man",
+    value: 3,
+    review: "Cute and goofy, my kids loved it even if the story is fairly predictable.",
+  },
+  {
+    userEmail: "benjamin.koh@example.com",
+    movieTitle: "F1 The Movie",
+    value: 5,
+    review: "Adrenaline-pumping racing sequences shot right on real Grand Prix weekends — thrilling from start to finish.",
+  },
+  {
+    userEmail: "chloe.lim@example.com",
+    movieTitle: "La La Land",
+    value: 5,
+    review: "A gorgeous musical love letter to dreamers. Gosling and Stone have incredible chemistry.",
+  },
+  {
+    userEmail: "daniel.wong@example.com",
+    movieTitle: "La La Land",
+    value: 4,
+    review: "Beautifully shot with unforgettable music, though the ending is bittersweet.",
+  },
+];
+
 async function seed() {
+  console.log("Clearing existing ratings, movies, and users...");
+  await db.delete(ratings);
+  await db.delete(movies);
+  await db.delete(users);
+
   console.log(`Seeding ${seedMovies.length} movies...`);
-  const inserted = await db.insert(movies).values(seedMovies).returning();
-  console.log(`Inserted ${inserted.length} movies.`);
+  const insertedMovies = await db.insert(movies).values(seedMovies).returning();
+  console.log(`Inserted ${insertedMovies.length} movies.`);
+
+  console.log(`Seeding ${seedUsers.length} users...`);
+  const passwordHash = await bcrypt.hash("password123", 10);
+  const insertedUsers = await db
+    .insert(users)
+    .values(seedUsers.map((user) => ({ ...user, passwordHash })))
+    .returning();
+  console.log(`Inserted ${insertedUsers.length} users.`);
+
+  const movieIdByTitle = new Map(insertedMovies.map((m) => [m.title, m.id]));
+  const userIdByEmail = new Map(insertedUsers.map((u) => [u.email, u.id]));
+
+  const seedRatings = seedRatingsData.map(({ userEmail, movieTitle, value, review }) => ({
+    userId: userIdByEmail.get(userEmail),
+    movieId: movieIdByTitle.get(movieTitle),
+    value,
+    review,
+  }));
+
+  console.log(`Seeding ${seedRatings.length} ratings/reviews...`);
+  const insertedRatings = await db.insert(ratings).values(seedRatings).returning();
+  console.log(`Inserted ${insertedRatings.length} ratings/reviews.`);
 }
 
 seed()
