@@ -83,6 +83,11 @@ const seedUsers = [
     role: "admin",
   },
   {
+    name: "Haiyun",
+    email: "haiyun@example.com",
+    role: "user",
+  },
+  {
     name: "Alice Tan",
     email: "alice.tan@example.com",
     role: "user",
