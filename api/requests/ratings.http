@@ -1,0 +1,43 @@
+@baseUrl = http://localhost:5000/api
+@movieId = 1
+
+### Run "Login as seeded regular user" in auth.http first so the auth cookie is set,
+### then run the requests below in the same REST Client session.
+
+### List reviews for a movie (public)
+GET {{baseUrl}}/movies/{{movieId}}/reviews
+
+### Get my rating for a movie (requires auth)
+GET {{baseUrl}}/movies/{{movieId}}/rating
+
+### Create/update (upsert) my rating + review for a movie (requires auth)
+PUT {{baseUrl}}/movies/{{movieId}}/rating
+Content-Type: application/json
+
+{
+  "value": 5,
+  "review": "Loved this movie — great story and acting."
+}
+
+### Remove my rating for a movie (requires auth)
+DELETE {{baseUrl}}/movies/{{movieId}}/rating
+
+### --- Error cases ---
+
+### Upsert rating while logged out (expect 401)
+PUT {{baseUrl}}/movies/{{movieId}}/rating
+Content-Type: application/json
+
+{
+  "value": 4,
+  "review": "Should fail without auth."
+}
+
+### Upsert rating with invalid value (expect 400)
+PUT {{baseUrl}}/movies/{{movieId}}/rating
+Content-Type: application/json
+
+{
+  "value": 10,
+  "review": "Rating out of range."
+}

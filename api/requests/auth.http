@@ -1,0 +1,64 @@
+@baseUrl = http://localhost:5000/api
+
+### Health check
+GET {{baseUrl}}/health
+
+### Register a new user
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "name": "Test User",
+  "email": "test.user@example.com",
+  "password": "password123"
+}
+
+### Login as seeded regular user (sets auth cookie for subsequent requests)
+# @name login
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "haiyun@example.com",
+  "password": "password123"
+}
+
+### Login as seeded admin user
+# @name loginAdmin
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@moviesapp.com",
+  "password": "password123"
+}
+
+### Get current authenticated user (requires cookie from a login request above)
+GET {{baseUrl}}/auth/me
+
+### Logout (clears auth cookie)
+POST {{baseUrl}}/auth/logout
+
+### --- Error cases ---
+
+### Login with wrong password
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "haiyun@example.com",
+  "password": "wrong-password"
+}
+
+### Register with invalid payload (short password, bad email)
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "name": "",
+  "email": "not-an-email",
+  "password": "short"
+}
+
+### /me without being logged in
+GET {{baseUrl}}/auth/me

@@ -1,0 +1,68 @@
+@baseUrl = http://localhost:5000/api
+
+### List movies (paginated)
+GET {{baseUrl}}/movies?page=1&limit=20
+
+### Search movies by title
+GET {{baseUrl}}/movies?search=matrix
+
+### Get a single movie by id
+GET {{baseUrl}}/movies/1
+
+### Get a movie that doesn't exist (expect 404)
+GET {{baseUrl}}/movies/999999
+
+### --- Admin-only actions ---
+### Run "Login as seeded admin user" in auth.http first so the auth cookie is set,
+### then run the requests below in the same REST Client session.
+
+### Create a movie (admin only)
+POST {{baseUrl}}/movies
+Content-Type: application/json
+
+{
+  "title": "The Sample Movie",
+  "description": "A movie created via the .http test client.",
+  "genre": "Drama",
+  "releaseDate": "2024-01-15",
+  "posterUrl": "https://example.com/poster.jpg"
+}
+
+### Update a movie (admin only)
+PUT {{baseUrl}}/movies/1
+Content-Type: application/json
+
+{
+  "title": "The Sample Movie (Updated)",
+  "description": "Updated description.",
+  "genre": "Drama",
+  "releaseDate": "2024-01-15",
+  "posterUrl": "https://example.com/poster.jpg"
+}
+
+### Delete a movie (admin only)
+DELETE {{baseUrl}}/movies/1
+
+### --- Error / authorization cases ---
+
+### Create a movie while logged out or as non-admin (expect 401/403)
+POST {{baseUrl}}/movies
+Content-Type: application/json
+
+{
+  "title": "Should Fail",
+  "description": "No permission.",
+  "genre": "Drama",
+  "releaseDate": "2024-01-15"
+}
+
+### Create a movie with invalid payload (expect 400)
+POST {{baseUrl}}/movies
+Content-Type: application/json
+
+{
+  "title": "",
+  "description": "",
+  "genre": "",
+  "releaseDate": "not-a-date"
+}
