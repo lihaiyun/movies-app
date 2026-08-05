@@ -44,6 +44,7 @@ export const ratings = pgTable(
       .notNull()
       .references(() => users.id, { onDelete: "cascade" }),
     value: integer("value").notNull(),
+    review: text("review"),
     createdAt: timestamp("created_at").notNull().defaultNow(),
     updatedAt: timestamp("updated_at").notNull().defaultNow(),
   },

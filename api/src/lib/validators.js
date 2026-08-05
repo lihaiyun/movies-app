@@ -33,4 +33,5 @@ export const ratingSchema = z.object({
     .int("Rating must be a whole number")
     .min(1, "Rating must be between 1 and 5")
     .max(5, "Rating must be between 1 and 5"),
+  review: z.string().trim().max(2000, "Review is too long").optional().or(z.literal("")),
 });

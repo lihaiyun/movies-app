@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { api } from "@/lib/api";
 import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 import { StarRating } from "@/components/StarRating";
+import { MovieReviews } from "@/components/MovieReviews";
 import { useAuth } from "@/context/AuthContext";
 import { formatDate } from "@/lib/utils";
 
@@ -11,8 +13,11 @@ export function MovieDetailPage() {
   const { user } = useAuth();
   const [movie, setMovie] = useState(null);
   const [error, setError] = useState(null);
-  const [myRating, setMyRating] = useState(null);
+  const [reviews, setReviews] = useState([]);
+  const [myValue, setMyValue] = useState(null);
+  const [myReview, setMyReview] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [saved, setSaved] = useState(false);
 
   useEffect(() => {
     api
@@ -21,28 +26,51 @@ export function MovieDetailPage() {
       .catch(() => setError("Movie not found"));
   }, [id]);
 
+  function loadReviews() {
+    api
+      .get(`/movies/${id}/reviews`)
+      .then((res) => setReviews(res.data.reviews))
+      .catch(() => setReviews([]));
+  }
+
+  useEffect(loadReviews, [id]);
+
   useEffect(() => {
     if (!user) {
-      setMyRating(null);
+      setMyValue(null);
+      setMyReview("");
       return;
     }
 
     api
       .get(`/movies/${id}/rating`)
-      .then((res) => setMyRating(res.data.value))
-      .catch(() => setMyRating(null));
+      .then((res) => {
+        setMyValue(res.data.value);
+        setMyReview(res.data.review ?? "");
+      })
+      .catch(() => {
+        setMyValue(null);
+        setMyReview("");
+      });
   }, [id, user]);
 
-  async function handleRate(value) {
+  async function handleSubmit() {
+    if (!myValue) return;
+
     setSubmitting(true);
+    setSaved(false);
     try {
-      const res = await api.put(`/movies/${id}/rating`, { value });
-      setMyRating(res.data.value);
+      const res = await api.put(`/movies/${id}/rating`, {
+        value: myValue,
+        review: myReview,
+      });
       setMovie((prev) => ({
         ...prev,
         averageRating: res.data.averageRating,
         ratingCount: res.data.ratingCount,
       }));
+      setSaved(true);
+      loadReviews();
     } finally {
       setSubmitting(false);
     }
@@ -106,13 +134,43 @@ export function MovieDetailPage() {
             <div className="mt-6">
               <p className="mb-1 text-sm font-medium">Your rating</p>
               <StarRating
-                value={myRating ?? 0}
+                value={myValue ?? 0}
                 interactive={!submitting}
-                onRate={handleRate}
+                onRate={(value) => {
+                  setMyValue(value);
+                  setSaved(false);
+                }}
               />
+              <Textarea
+                placeholder="Write a review (optional)"
+                value={myReview}
+                onChange={(e) => {
+                  setMyReview(e.target.value);
+                  setSaved(false);
+                }}
+                disabled={submitting}
+                className="mt-2"
+              />
+              <div className="mt-2 flex items-center gap-3">
+                <Button
+                  size="sm"
+                  onClick={handleSubmit}
+                  disabled={!myValue || submitting}
+                >
+                  {submitting ? "Saving..." : "Submit"}
+                </Button>
+                {saved && (
+                  <span className="text-sm text-muted-foreground">Saved!</span>
+                )}
+              </div>
             </div>
           )}
         </div>
+      </div>
+
+      <div className="mt-10">
+        <h2 className="mb-4 text-xl font-semibold">Reviews</h2>
+        <MovieReviews reviews={reviews} />
       </div>
     </div>
   );

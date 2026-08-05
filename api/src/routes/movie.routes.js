@@ -17,6 +17,7 @@ router.put(
   validate(ratingSchema),
   asyncHandler(ratingController.upsert)
 );
+router.get("/:id/reviews", asyncHandler(ratingController.listForMovie));
 router.post(
   "/",
   requireAuth,
