@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { formatDate } from "@/lib/utils";
 
 export function MovieCard({ movie }) {
   return (
@@ -23,7 +24,7 @@ export function MovieCard({ movie }) {
         </CardHeader>
         <CardContent className="pt-0 pb-6 text-sm text-muted-foreground">
           <p className="truncate">{movie.genre}</p>
-          <p>{movie.releaseDate}</p>
+          <p>{formatDate(movie.releaseDate)}</p>
         </CardContent>
       </Card>
     </Link>

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { api } from "@/lib/api";
 import { Button } from "@/components/ui/button";
+import { formatDate } from "@/lib/utils";
 
 export function MovieDetailPage() {
   const { id } = useParams();
@@ -52,7 +53,7 @@ export function MovieDetailPage() {
         <div>
           <h1 className="text-3xl font-semibold">{movie.title}</h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            {movie.genre} · {movie.releaseDate}
+            {movie.genre} · {formatDate(movie.releaseDate)}
           </p>
           <p className="mt-4 whitespace-pre-wrap">{movie.description}</p>
         </div>

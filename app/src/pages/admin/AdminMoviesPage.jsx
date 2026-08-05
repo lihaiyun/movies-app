@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { api } from "@/lib/api";
 import { Button } from "@/components/ui/button";
+import { formatDate } from "@/lib/utils";
 import {
   Table,
   TableBody,
@@ -55,7 +56,7 @@ export function AdminMoviesPage() {
             <TableRow key={movie.id}>
               <TableCell>{movie.title}</TableCell>
               <TableCell>{movie.genre}</TableCell>
-              <TableCell>{movie.releaseDate}</TableCell>
+              <TableCell>{formatDate(movie.releaseDate)}</TableCell>
               <TableCell className="space-x-2 text-right">
                 <Button asChild variant="outline" size="sm">
                   <Link to={`/admin/movies/${movie.id}/edit`}>Edit</Link>
