@@ -15,7 +15,7 @@ export function Navbar() {
     <header className="border-b">
       <nav className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
         <Link to="/" className="text-lg font-semibold">
-          🎬 Movies App
+          Movies App
         </Link>
 
         <div className="flex items-center gap-4">
