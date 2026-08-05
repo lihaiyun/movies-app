@@ -53,11 +53,11 @@ Users can browse movies, submit ratings and reviews, while administrators can ma
 
 # Deployment
 
-| Component | Platform        |
-| --------- | --------------- |
-| Frontend  | Vercel          |
-| Backend   | Render          |
-| Database  | Neon PostgreSQL |
+| Component | Platform        | URL                                                                          |
+| --------- | --------------- | ----------------------------------------------------------------------------|
+| Frontend  | Vercel          | [movies-app-six-zeta.vercel.app](https://movies-app-six-zeta.vercel.app)    |
+| Backend   | Render          | [movies-api-bc6e.onrender.com/api](https://movies-api-bc6e.onrender.com/api) |
+| Database  | Neon PostgreSQL | —                                                                            |
 
 ---
 
