@@ -19,6 +19,7 @@ export function MovieDetailPage() {
   const [submitting, setSubmitting] = useState(false);
   const [saved, setSaved] = useState(false);
   const [deleting, setDeleting] = useState(false);
+  const [hasSavedRating, setHasSavedRating] = useState(false);
 
   useEffect(() => {
     api
@@ -40,6 +41,7 @@ export function MovieDetailPage() {
     if (!user) {
       setMyValue(null);
       setMyReview("");
+      setHasSavedRating(false);
       return;
     }
 
@@ -48,10 +50,12 @@ export function MovieDetailPage() {
       .then((res) => {
         setMyValue(res.data.value);
         setMyReview(res.data.review ?? "");
+        setHasSavedRating(res.data.value != null);
       })
       .catch(() => {
         setMyValue(null);
         setMyReview("");
+        setHasSavedRating(false);
       });
   }, [id, user]);
 
@@ -71,6 +75,7 @@ export function MovieDetailPage() {
         ratingCount: res.data.ratingCount,
       }));
       setSaved(true);
+      setHasSavedRating(true);
       loadReviews();
     } finally {
       setSubmitting(false);
@@ -89,6 +94,7 @@ export function MovieDetailPage() {
       setMyValue(null);
       setMyReview("");
       setSaved(false);
+      setHasSavedRating(false);
       loadReviews();
     } finally {
       setDeleting(false);
@@ -178,7 +184,7 @@ export function MovieDetailPage() {
                 >
                   {submitting ? "Saving..." : "Submit"}
                 </Button>
-                {myValue != null && (
+                {hasSavedRating && (
                   <Button
                     size="sm"
                     variant="outline"
