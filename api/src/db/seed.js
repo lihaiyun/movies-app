@@ -31,6 +31,24 @@ const seedMovies = [
     posterUrl: "https://media.gv.com.sg/imagesresize/img4376.jpg",
   },
   {
+    title: "Minions & Monsters",
+    description:
+      `Fresh off the worldwide blockbuster success of summer 2024’s funniest comedy, Despicable Me 4, Illumination expands its joyful animated universe with a riotous new chapter, featuring all-new characters, in the biggest global animated franchise in history: Minions & Monsters. This is the rambunctious, ridiculous and totally true story of how the Minions conquered Hollywood, became movie stars, lost everything, unleashed monsters onto the world and then banded together to try and save the planet from the mayhem they had just created.`,
+    genre: "Animation",
+    releaseDate: "2026-07-01",
+    posterUrl: "https://media.gv.com.sg/imagesresize/img1398.jpg",
+  },
+  {
+    title: "The Super Mario Galaxy Movie",
+    description:
+      `The Super Mario Galaxy Movie is an animated film based on the world of Super Mario Bros., and follows The Super Mario Bros. Movie, which was released in 2023 and earned more than $1.3 billion worldwide. Both the 2023 film and The Super Mario Galaxy Movie are produced by Chris Meledandri of Illumination and Shigeru Miyamoto of Nintendo.
+The film will be co-financed by Universal Pictures and Nintendo and will be released worldwide by Universal Pictures.
+The Super Mario Galaxy Movie is directed by returning filmmakers Aaron Horvath and Michael Jelenic, from a screenplay by returning screenwriter Matthew Fogel, with Brian Tyler returning to compose the score.`,
+    genre: "Animation",
+    releaseDate: "2026-04-01",
+    posterUrl: "https://media.gv.com.sg/imagesresize/img1398.jpg",
+  },
+  {
     title: "Dog Man",
     description:
       `Dog Man, half dog and half man, he is sworn to protect and serve as he doggedly pursues the feline supervillain Petey the Cat.`,
