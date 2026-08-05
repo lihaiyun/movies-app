@@ -17,6 +17,7 @@ export const users = pgTable("users", {
   passwordHash: text("password_hash").notNull(),
   role: roleEnum("role").notNull().default("user"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
 
 export const movies = pgTable("movies", {
@@ -27,4 +28,5 @@ export const movies = pgTable("movies", {
   releaseDate: date("release_date").notNull(),
   posterUrl: text("poster_url"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
