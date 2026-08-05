@@ -63,7 +63,7 @@ Users can browse movies, submit ratings and reviews, while administrators can ma
 
 # Getting Started
 
-Implemented so far: registration/login/logout, movie browsing + search, and admin movie CRUD (poster is a URL field for now). Ratings/reviews are not yet implemented.
+Implemented so far: registration/login/logout, movie browsing + search, admin movie CRUD (poster is a URL field for now), and user ratings/reviews (submit, edit and delete your own 1–5 star rating with an optional review).
 
 ## Backend (`api/`)
 
@@ -71,11 +71,12 @@ Implemented so far: registration/login/logout, movie browsing + search, and admi
 cd api
 npm install
 cp .env.example .env   # fill in DATABASE_URL (e.g. a Neon connection string) and JWT_SECRET
-npm run db:push        # creates the users/movies tables via Drizzle
+npm run db:push        # creates the users/movies/ratings tables via Drizzle
+npm run db:seed         # (optional) seeds sample movies, users and ratings/reviews
 npm run dev             # starts the API on http://localhost:5000
 ```
 
-To create an admin user, register a normal account through the app, then manually set that user's `role` column to `admin` in the database (e.g. via `npm run db:studio`).
+To create an admin user, register a normal account through the app, then manually set that user's `role` column to `admin` in the database (e.g. via `npm run db:studio`). Alternatively, `npm run db:seed` creates an `admin@moviesapp.com` account (password: `password123`) along with sample users and movies.
 
 ## Frontend (`app/`)
 
