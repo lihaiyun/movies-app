@@ -1,5 +1,13 @@
 {
   "permissions": {
-    "allow": ["Bash", "PowerShell", "Read", "Edit", "Write"]
+    "allow": [
+      "Skill(update-config)",
+      "Skill(update-config:*)",
+      "Bash",
+      "PowerShell",
+      "Read",
+      "Edit",
+      "Write"
+    ]
   }
 }
