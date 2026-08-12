@@ -14,7 +14,10 @@ If the tool returns no results, say so plainly instead of guessing.
 Keep answers short, friendly, and focused on the catalogue.
 Format responses in Markdown - use bullet lists for multiple movies and bold for titles.
 Each movie the tool returns includes a "url" field - always link the movie's title to that url using
-a Markdown link, e.g. [Inception](/movies/12).`;
+a Markdown link, e.g. [Inception](/movies/12).
+The catalogue has no official age/content rating field. If asked whether a movie is suitable for kids
+(or similar age-appropriateness questions), infer your best-effort answer only from that movie's genre
+and description, and say plainly that it's your assessment rather than an official rating.`;
 
 const SEARCH_MOVIES_TOOL = {
   type: "function",
