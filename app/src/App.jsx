@@ -2,6 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/context/AuthContext";
 import { AdminRoute } from "@/components/ProtectedRoute";
 import { Navbar } from "@/components/Navbar";
+import { ChatWidget } from "@/components/ChatWidget";
 import { HomePage } from "@/pages/HomePage";
 import { MovieDetailPage } from "@/pages/MovieDetailPage";
 import { LoginPage } from "@/pages/LoginPage";
@@ -25,6 +26,7 @@ function App() {
           <Route path="/admin/movies/:id/edit" element={<MovieFormPage />} />
         </Route>
       </Routes>
+      <ChatWidget />
     </AuthProvider>
   );
 }

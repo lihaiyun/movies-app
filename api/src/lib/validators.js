@@ -35,3 +35,16 @@ export const ratingSchema = z.object({
     .max(5, "Rating must be between 1 and 5"),
   review: z.string().trim().max(2000, "Review is too long").optional().or(z.literal("")),
 });
+
+export const chatMessageSchema = z.object({
+  message: z.string().trim().min(1, "Message is required").max(1000, "Message is too long"),
+  history: z
+    .array(
+      z.object({
+        role: z.enum(["user", "assistant"]),
+        content: z.string().max(2000),
+      })
+    )
+    .max(20)
+    .optional(),
+});
