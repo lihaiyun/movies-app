@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import { MessageCircle, Send, X } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import { Button } from "@/components/ui/button";
@@ -7,19 +8,46 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { api } from "@/lib/api";
 
-const MARKDOWN_COMPONENTS = {
-  p: ({ node: _node, ...props }) => <p className="mb-1.5 last:mb-0" {...props} />,
-  ul: ({ node: _node, ...props }) => <ul className="mb-1.5 list-disc pl-4 last:mb-0" {...props} />,
-  ol: ({ node: _node, ...props }) => <ol className="mb-1.5 list-decimal pl-4 last:mb-0" {...props} />,
-  li: ({ node: _node, ...props }) => <li className="mb-0.5" {...props} />,
-  a: ({ node: _node, ...props }) => (
-    <a className="underline underline-offset-2" target="_blank" rel="noreferrer" {...props} />
-  ),
-  code: ({ node: _node, ...props }) => (
-    <code className="rounded bg-background/50 px-1 py-0.5 text-xs" {...props} />
-  ),
-  strong: ({ node: _node, ...props }) => <strong className="font-semibold" {...props} />,
-};
+function ChatLink({ node: _node, href, onNavigate, ...props }) {
+  const isInternal = href?.startsWith("/");
+
+  if (isInternal) {
+    return (
+      <Link
+        to={href}
+        onClick={onNavigate}
+        className="underline underline-offset-2"
+        {...props}
+      />
+    );
+  }
+
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noreferrer"
+      className="underline underline-offset-2"
+      {...props}
+    />
+  );
+}
+
+function getMarkdownComponents(onNavigate) {
+  return {
+    p: ({ node: _node, ...props }) => <p className="mb-1.5 last:mb-0" {...props} />,
+    ul: ({ node: _node, ...props }) => <ul className="mb-1.5 list-disc pl-4 last:mb-0" {...props} />,
+    ol: ({ node: _node, ...props }) => (
+      <ol className="mb-1.5 list-decimal pl-4 last:mb-0" {...props} />
+    ),
+    li: ({ node: _node, ...props }) => <li className="mb-0.5" {...props} />,
+    a: (props) => <ChatLink onNavigate={onNavigate} {...props} />,
+    code: ({ node: _node, ...props }) => (
+      <code className="rounded bg-background/50 px-1 py-0.5 text-xs" {...props} />
+    ),
+    strong: ({ node: _node, ...props }) => <strong className="font-semibold" {...props} />,
+  };
+}
 
 const WELCOME_MESSAGE = {
   role: "assistant",
@@ -33,6 +61,7 @@ export function ChatWidget() {
   const [sending, setSending] = useState(false);
   const [error, setError] = useState("");
   const scrollRef = useRef(null);
+  const markdownComponents = getMarkdownComponents(() => setOpen(false));
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -93,7 +122,7 @@ export function ChatWidget() {
                   )}
                 >
                   {m.role === "assistant" ? (
-                    <ReactMarkdown components={MARKDOWN_COMPONENTS}>{m.content}</ReactMarkdown>
+                    <ReactMarkdown components={markdownComponents}>{m.content}</ReactMarkdown>
                   ) : (
                     m.content
                   )}

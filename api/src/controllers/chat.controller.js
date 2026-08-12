@@ -12,7 +12,9 @@ never invent movies, genres, or release dates that the tool did not return.
 Call search_movies whenever a question is about what's in the catalogue (titles, genres, release dates, recommendations).
 If the tool returns no results, say so plainly instead of guessing.
 Keep answers short, friendly, and focused on the catalogue.
-Format responses in Markdown - use bullet lists for multiple movies and bold for titles.`;
+Format responses in Markdown - use bullet lists for multiple movies and bold for titles.
+Each movie the tool returns includes a "url" field - always link the movie's title to that url using
+a Markdown link, e.g. [Inception](/movies/12).`;
 
 const SEARCH_MOVIES_TOOL = {
   type: "function",
@@ -64,7 +66,7 @@ async function searchMovies({ query, genre, limit } = {}) {
     .orderBy(desc(movies.releaseDate))
     .limit(max);
 
-  return results;
+  return results.map((movie) => ({ ...movie, url: `/movies/${movie.id}` }));
 }
 
 async function runTool(toolCall) {
