@@ -1,10 +1,25 @@
 import { useEffect, useRef, useState } from "react";
 import { MessageCircle, Send, X } from "lucide-react";
+import ReactMarkdown from "react-markdown";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { api } from "@/lib/api";
+
+const MARKDOWN_COMPONENTS = {
+  p: ({ node: _node, ...props }) => <p className="mb-1.5 last:mb-0" {...props} />,
+  ul: ({ node: _node, ...props }) => <ul className="mb-1.5 list-disc pl-4 last:mb-0" {...props} />,
+  ol: ({ node: _node, ...props }) => <ol className="mb-1.5 list-decimal pl-4 last:mb-0" {...props} />,
+  li: ({ node: _node, ...props }) => <li className="mb-0.5" {...props} />,
+  a: ({ node: _node, ...props }) => (
+    <a className="underline underline-offset-2" target="_blank" rel="noreferrer" {...props} />
+  ),
+  code: ({ node: _node, ...props }) => (
+    <code className="rounded bg-background/50 px-1 py-0.5 text-xs" {...props} />
+  ),
+  strong: ({ node: _node, ...props }) => <strong className="font-semibold" {...props} />,
+};
 
 const WELCOME_MESSAGE = {
   role: "assistant",
@@ -71,13 +86,17 @@ export function ChatWidget() {
                 <div
                   key={i}
                   className={cn(
-                    "max-w-[85%] whitespace-pre-wrap rounded-lg px-3 py-2 text-sm",
+                    "max-w-[85%] rounded-lg px-3 py-2 text-sm",
                     m.role === "user"
-                      ? "self-end bg-primary text-primary-foreground"
+                      ? "self-end whitespace-pre-wrap bg-primary text-primary-foreground"
                       : "self-start bg-muted text-foreground"
                   )}
                 >
-                  {m.content}
+                  {m.role === "assistant" ? (
+                    <ReactMarkdown components={MARKDOWN_COMPONENTS}>{m.content}</ReactMarkdown>
+                  ) : (
+                    m.content
+                  )}
                 </div>
               ))}
               {sending && (

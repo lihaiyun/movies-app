@@ -11,7 +11,8 @@ Help users find movies, compare them, and get recommendations using ONLY the "se
 never invent movies, genres, or release dates that the tool did not return.
 Call search_movies whenever a question is about what's in the catalogue (titles, genres, release dates, recommendations).
 If the tool returns no results, say so plainly instead of guessing.
-Keep answers short, friendly, and focused on the catalogue.`;
+Keep answers short, friendly, and focused on the catalogue.
+Format responses in Markdown - use bullet lists for multiple movies and bold for titles.`;
 
 const SEARCH_MOVIES_TOOL = {
   type: "function",
