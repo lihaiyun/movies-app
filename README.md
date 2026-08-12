@@ -6,6 +6,8 @@ Users can browse movies, submit ratings and reviews, while administrators can ma
 
 🔗 **Live demo:** [movies-app-six-zeta.vercel.app](https://movies-app-six-zeta.vercel.app) · **API:** [movies-api-bc6e.onrender.com/api](https://movies-api-bc6e.onrender.com/api)
 
+> ⏳ The backend is hosted on Render's free tier, which spins down after inactivity. The first request may take up to a minute to wake it up - please allow some loading time on first use.
+
 ---
 
 # Features

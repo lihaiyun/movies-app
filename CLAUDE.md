@@ -61,3 +61,7 @@ There is no test command in `app/` yet.
 | Database  | Neon PostgreSQL | —                                                                            |
 
 Frontend and backend are deployed and configured as separate services.
+
+## Writing Style
+
+Use `-` (hyphen) instead of `-` (em dash) in all files.
