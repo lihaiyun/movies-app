@@ -124,7 +124,10 @@ export async function chat(req, res) {
     }
 
     if (choice.tool_calls?.length) {
-      messages.push(choice);
+      // Some models (e.g. Qwen reasoning models) attach a verbose "reasoning" field alongside the
+      // actual message - drop it before feeding the message back in, or token usage balloons with
+      // every extra round.
+      messages.push({ role: choice.role, content: choice.content ?? null, tool_calls: choice.tool_calls });
 
       for (const toolCall of choice.tool_calls) {
         const result = await runTool(toolCall);

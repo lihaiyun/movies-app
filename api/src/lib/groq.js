@@ -26,6 +26,11 @@ export async function groqChatCompletion({ messages, tools }) {
 
   if (!response.ok) {
     const details = await response.text().catch(() => undefined);
+
+    if (response.status === 429) {
+      throw new AppError(429, "The AI assistant is busy right now - please try again in a few seconds", details);
+    }
+
     throw new AppError(502, "AI assistant request failed", details);
   }
 
