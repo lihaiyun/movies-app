@@ -101,7 +101,7 @@ export function ChatWidget() {
     <div className="fixed bottom-4 right-4 z-50 flex flex-col items-end gap-3">
       {open && (
         <Card className="w-80 gap-0 py-0 shadow-lg sm:w-96">
-          <CardHeader className="flex-row items-center justify-between gap-2 border-b py-3">
+          <CardHeader className="flex items-center justify-between gap-2 border-b py-3">
             <CardTitle className="text-sm">Movie Assistant</CardTitle>
             <Button
               variant="ghost"
