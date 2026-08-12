@@ -49,6 +49,9 @@ function getMarkdownComponents(onNavigate) {
   };
 }
 
+// Must stay <= the backend's chatMessageSchema history limit (see api/src/lib/validators.js).
+const MAX_HISTORY_MESSAGES = 20;
+
 const WELCOME_MESSAGE = {
   role: "assistant",
   content: "Hi! Ask me about the movies in our catalogue - genres, release dates, recommendations and more.",
@@ -76,7 +79,8 @@ export function ChatWidget() {
 
     const history = messages
       .filter((m) => m !== WELCOME_MESSAGE)
-      .map(({ role, content }) => ({ role, content }));
+      .map(({ role, content }) => ({ role, content }))
+      .slice(-MAX_HISTORY_MESSAGES);
 
     setMessages((prev) => [...prev, { role: "user", content: trimmed }]);
     setInput("");

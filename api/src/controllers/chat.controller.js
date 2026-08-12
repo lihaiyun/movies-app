@@ -15,9 +15,12 @@ Keep answers short, friendly, and focused on the catalogue.
 Format responses in Markdown - use bullet lists for multiple movies and bold for titles.
 Each movie the tool returns includes a "url" field - always link the movie's title to that url using
 a Markdown link, e.g. [Inception](/movies/12).
-The catalogue has no official age/content rating field. If asked whether a movie is suitable for kids
-(or similar age-appropriateness questions), infer your best-effort answer only from that movie's genre
-and description, and say plainly that it's your assessment rather than an official rating.`;
+The catalogue only stores title, description, genre and release date - there is no field for things like
+age/content rating, language, or country of origin, so the "query" filter cannot search for those directly
+(it only matches literal keywords in the title/description, not concepts). For a question about such an
+inferred attribute (e.g. whether a movie is suitable for kids, or whether it's a Chinese/Korean/etc. film),
+call search_movies with NO query/genre filter to get the full catalogue, then judge each candidate from its
+title, genre and description. Say plainly that it's your assessment rather than official data.`;
 
 const SEARCH_MOVIES_TOOL = {
   type: "function",
@@ -29,7 +32,11 @@ const SEARCH_MOVIES_TOOL = {
       properties: {
         query: {
           type: "string",
-          description: "Keyword to search for in the movie title or description",
+          description:
+            "Literal keyword to match in the movie title or description. Only matches exact text - " +
+            "leave this out (along with genre) to get the entire catalogue back, which is what to do " +
+            "when judging an inferred attribute like language, origin, or kid-suitability that isn't " +
+            "a literal keyword match.",
         },
         genre: {
           type: "string",
@@ -37,15 +44,21 @@ const SEARCH_MOVIES_TOOL = {
         },
         limit: {
           type: "number",
-          description: "Maximum number of movies to return (default 5, max 10)",
+          description:
+            "Maximum number of movies to return when query or genre is set (default 5, max 30). " +
+            "Ignored when both are omitted - that always returns the full catalogue.",
         },
       },
     },
   },
 };
 
+// A browse-all call (no keyword/genre filter) is how the model inspects the whole catalogue to judge an
+// inferred attribute (language, kid-suitability, etc.) - always return everything for that case instead of
+// trusting the model to ask for a high enough limit itself.
+const BROWSE_ALL_LIMIT = 200;
+
 async function searchMovies({ query, genre, limit } = {}) {
-  const max = Math.min(Math.max(Number(limit) || 5, 1), 10);
   const conditions = [];
 
   if (query) {
@@ -55,6 +68,10 @@ async function searchMovies({ query, genre, limit } = {}) {
   if (genre) {
     conditions.push(ilike(movies.genre, `%${genre}%`));
   }
+
+  const max = conditions.length
+    ? Math.min(Math.max(Number(limit) || 5, 1), 30)
+    : BROWSE_ALL_LIMIT;
 
   const results = await db
     .select({
