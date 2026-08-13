@@ -21,6 +21,7 @@ Users can browse movies, submit ratings and reviews, while administrators can ma
 * View movie details
 * Submit ratings (1–5 stars)
 * Write, edit and delete reviews
+* Ask the AI chat assistant about movies in the catalogue (recommendations, genres, release dates)
 
 ## Administrator
 
@@ -42,6 +43,7 @@ Users can browse movies, submit ratings and reviews, while administrators can ma
 * JWT Authentication (Secure HttpOnly Cookies)
 * bcrypt
 * Zod Validation
+* Groq API (Qwen model) for the AI chat assistant
 
 ## Frontend
 
@@ -52,6 +54,7 @@ Users can browse movies, submit ratings and reviews, while administrators can ma
 * Axios
 * React Hook Form
 * Zod Validation
+* react-markdown
 
 ---
 
@@ -67,18 +70,20 @@ Users can browse movies, submit ratings and reviews, while administrators can ma
 
 # Getting Started
 
-Implemented so far: registration/login/logout, movie browsing + search, admin movie CRUD (poster is a URL field for now), and user ratings/reviews (submit, edit and delete your own 1–5 star rating with an optional review).
+Implemented so far: registration/login/logout, movie browsing + search, admin movie CRUD (poster is a URL field for now), user ratings/reviews (submit, edit and delete your own 1–5 star rating with an optional review), and an AI chat assistant for querying the catalogue.
 
 ## Backend (`api/`)
 
 ```bash
 cd api
 npm install
-cp .env.example .env   # fill in DATABASE_URL (e.g. a Neon connection string) and JWT_SECRET
+cp .env.example .env   # fill in DATABASE_URL (e.g. a Neon connection string), JWT_SECRET and GROQ_API_KEY
 npm run db:push        # creates the users/movies/ratings tables via Drizzle
 npm run db:seed         # (optional) seeds sample movies, users and ratings/reviews
 npm run dev             # starts the API on http://localhost:5000
 ```
+
+Get a free `GROQ_API_KEY` from [console.groq.com/keys](https://console.groq.com/keys) - it powers the AI chat assistant (`GROQ_MODEL` defaults to a Qwen model and can be overridden in `.env`).
 
 The command `npm run db:seed` creates an `admin@moviesapp.com` account along with sample users, movies and ratings.
 

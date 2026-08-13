@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project status
 
-Implemented: user registration/login/logout, movie browsing + search, admin movie CRUD (poster is a URL field for now), and user ratings/reviews (submit, edit and delete your own 1–5 star rating with an optional review). There is no automated test suite yet.
+Implemented: user registration/login/logout, movie browsing + search, admin movie CRUD (poster is a URL field for now), user ratings/reviews (submit, edit and delete your own 1–5 star rating with an optional review), and an AI chat assistant (Groq API, Qwen model) that answers questions about the catalogue via a `search_movies` tool. There is no automated test suite yet.
 
 ## Architecture
 
