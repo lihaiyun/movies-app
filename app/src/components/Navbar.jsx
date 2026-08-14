@@ -29,7 +29,9 @@ export function Navbar() {
 
           {user ? (
             <div className="flex items-center gap-3">
-              <span className="text-sm text-muted-foreground">{user.name}</span>
+              <Link to="/profile" className="text-sm font-medium hover:underline">
+                {user.name}
+              </Link>
               <Button variant="outline" size="sm" onClick={handleLogout}>
                 Logout
               </Button>

@@ -11,6 +11,11 @@ export const loginSchema = z.object({
   password: z.string().min(1, "Password is required"),
 });
 
+export const changePasswordSchema = z.object({
+  currentPassword: z.string().min(1, "Current password is required"),
+  newPassword: z.string().min(8, "Password must be at least 8 characters"),
+});
+
 export const movieSchema = z.object({
   title: z.string().trim().min(1, "Title is required").max(255),
   description: z.string().trim().min(1, "Description is required"),

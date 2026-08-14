@@ -65,6 +65,28 @@ export async function logout(req, res) {
   res.status(204).send();
 }
 
+export async function changePassword(req, res) {
+  const { currentPassword, newPassword } = req.body;
+
+  const [user] = await db.select().from(users).where(eq(users.id, req.user.id));
+  if (!user) {
+    throw new AppError(401, "Session user no longer exists");
+  }
+
+  const passwordMatches = await bcrypt.compare(currentPassword, user.passwordHash);
+  if (!passwordMatches) {
+    throw new AppError(400, "Current password is incorrect");
+  }
+
+  const passwordHash = await bcrypt.hash(newPassword, SALT_ROUNDS);
+  await db
+    .update(users)
+    .set({ passwordHash, updatedAt: new Date() })
+    .where(eq(users.id, user.id));
+
+  res.status(204).send();
+}
+
 export async function me(req, res) {
   const [user] = await db.select().from(users).where(eq(users.id, req.user.id));
 
