@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project status
 
-Implemented: user registration/login/logout, movie browsing + search, admin movie CRUD (poster is a URL field for now), user ratings/reviews (submit, edit and delete your own 1–5 star rating with an optional review), and an AI chat assistant (Groq API, Qwen model) that answers questions about the catalogue via a `search_movies` tool. There is no automated test suite yet.
+Implemented: user registration/login/logout, profile management (update details, change password), movie browsing + search, admin movie CRUD (poster is a URL field for now), user ratings/reviews (submit, edit and delete your own 1–5 star rating with an optional review), and an AI chat assistant (Groq API, Qwen model) that answers questions about the catalogue via a `search_movies` tool. There is no automated test suite yet.
 
 ## Architecture
 
@@ -17,7 +17,7 @@ Full-stack movie catalogue app with two independent halves:
 
 ### Domain model
 
-- **Users**: register (name/email/password), login/logout, browse and search movies, view movie details, submit 1–5 star ratings, write/edit/delete reviews.
+- **Users**: register (name/email/password), login/logout, view/update profile and change password, browse and search movies, view movie details, submit 1–5 star ratings, write/edit/delete reviews.
 - **Administrators**: separate secure login, full CRUD on movies, poster image uploads (URL field for now), role-based access control gating admin-only actions.
 
 ## Commands
@@ -27,7 +27,7 @@ Full-stack movie catalogue app with two independent halves:
 ```bash
 cd api
 npm install
-cp .env.example .env   # fill in DATABASE_URL (e.g. a Neon connection string) and JWT_SECRET
+cp .env.example .env   # fill in DATABASE_URL (e.g. a Neon connection string), JWT_SECRET and GROQ_API_KEY
 npm run db:push        # creates the users/movies/ratings tables via Drizzle
 npm run db:seed        # (optional) seeds sample movies, users and ratings/reviews
 npm run dev            # starts the API on http://localhost:5000

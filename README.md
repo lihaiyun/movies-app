@@ -16,6 +16,7 @@ Users can browse movies, submit ratings and reviews, while administrators can ma
 
 * Register with name, email and password
 * Login and logout
+* View and update your profile, and change your password
 * Browse movies
 * Search movies
 * View movie details
@@ -70,7 +71,9 @@ Users can browse movies, submit ratings and reviews, while administrators can ma
 
 # Getting Started
 
-Implemented so far: registration/login/logout, movie browsing + search, admin movie CRUD (poster is a URL field for now), user ratings/reviews (submit, edit and delete your own 1–5 star rating with an optional review), and an AI chat assistant for querying the catalogue.
+Implemented so far: registration/login/logout, profile management (update details, change password), movie browsing + search, admin movie CRUD (poster is a URL field for now), user ratings/reviews (submit, edit and delete your own 1–5 star rating with an optional review), and an AI chat assistant for querying the catalogue.
+
+See [api/README.md](api/README.md) and [app/README.md](app/README.md) for backend/frontend specifics (API routes, project structure, environment variables).
 
 ## Backend (`api/`)
 
