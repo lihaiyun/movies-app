@@ -57,15 +57,17 @@ function ProfileDetailsSection() {
             <p className="text-sm text-muted-foreground">Email</p>
             <p className="font-medium">{user?.email}</p>
           </div>
-          <div>
-            <p className="text-sm text-muted-foreground">Role</p>
-            <p className="font-medium capitalize">{user?.role}</p>
-          </div>
+          {user?.role === "admin" && (
+            <div>
+              <p className="text-sm text-muted-foreground">Role</p>
+              <p className="font-medium capitalize">{user.role}</p>
+            </div>
+          )}
 
           {serverError && <p className="text-sm text-destructive">{serverError}</p>}
           {success && <p className="text-sm text-green-600">Profile updated successfully.</p>}
 
-          <Button type="submit" disabled={form.formState.isSubmitting}>
+          <Button type="submit" className="w-full" disabled={form.formState.isSubmitting}>
             {form.formState.isSubmitting ? "Saving..." : "Save Changes"}
           </Button>
         </form>
@@ -104,7 +106,7 @@ export function ProfilePage() {
       <div className="grid gap-8 md:grid-cols-2">
         <ProfileDetailsSection />
 
-        <section>
+        <section className="rounded-lg border p-4">
           <h2 className="mb-4 text-lg font-semibold">Change Password</h2>
 
         <Form {...form}>
