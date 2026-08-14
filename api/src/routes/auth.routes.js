@@ -2,7 +2,12 @@ import { Router } from "express";
 import * as authController from "../controllers/auth.controller.js";
 import { requireAuth } from "../middleware/auth.js";
 import { validate } from "../middleware/validate.js";
-import { registerSchema, loginSchema, changePasswordSchema } from "../lib/validators.js";
+import {
+  registerSchema,
+  loginSchema,
+  changePasswordSchema,
+  updateProfileSchema,
+} from "../lib/validators.js";
 import { asyncHandler } from "../lib/asyncHandler.js";
 
 const router = Router();
@@ -11,6 +16,12 @@ router.post("/register", validate(registerSchema), asyncHandler(authController.r
 router.post("/login", validate(loginSchema), asyncHandler(authController.login));
 router.post("/logout", asyncHandler(authController.logout));
 router.get("/me", requireAuth, asyncHandler(authController.me));
+router.patch(
+  "/me",
+  requireAuth,
+  validate(updateProfileSchema),
+  asyncHandler(authController.updateProfile)
+);
 router.post(
   "/change-password",
   requireAuth,

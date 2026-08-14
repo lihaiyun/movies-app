@@ -65,6 +65,22 @@ export async function logout(req, res) {
   res.status(204).send();
 }
 
+export async function updateProfile(req, res) {
+  const { name } = req.body;
+
+  const [user] = await db
+    .update(users)
+    .set({ name, updatedAt: new Date() })
+    .where(eq(users.id, req.user.id))
+    .returning();
+
+  if (!user) {
+    throw new AppError(401, "Session user no longer exists");
+  }
+
+  res.json(toSafeUser(user));
+}
+
 export async function changePassword(req, res) {
   const { currentPassword, newPassword } = req.body;
 
