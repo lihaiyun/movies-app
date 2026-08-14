@@ -26,10 +26,8 @@ Users can browse movies, submit ratings and reviews, while administrators can ma
 
 ## Administrator
 
-* Secure administrator login
-* Create, update and delete movies
-* Upload movie poster images
 * Role-based access control
+* Create, update and delete movies
 
 ---
 
