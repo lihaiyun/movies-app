@@ -36,7 +36,7 @@ function ProfileDetailsSection() {
   }
 
   return (
-    <section className="mb-8 space-y-4 rounded-lg border p-4">
+    <section className="space-y-4 rounded-lg border p-4">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <FormField
@@ -98,13 +98,14 @@ export function ProfilePage() {
   }
 
   return (
-    <div className="mx-auto max-w-sm px-4 py-12">
+    <div className="mx-auto max-w-3xl px-4 py-12">
       <h1 className="mb-6 text-2xl font-semibold">Profile</h1>
 
-      <ProfileDetailsSection />
+      <div className="grid gap-8 md:grid-cols-2">
+        <ProfileDetailsSection />
 
-      <section>
-        <h2 className="mb-4 text-lg font-semibold">Change Password</h2>
+        <section>
+          <h2 className="mb-4 text-lg font-semibold">Change Password</h2>
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -161,6 +162,7 @@ export function ProfilePage() {
           </form>
         </Form>
       </section>
+      </div>
     </div>
   );
 }
