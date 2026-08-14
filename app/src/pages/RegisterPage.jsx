@@ -22,13 +22,14 @@ export function RegisterPage() {
 
   const form = useForm({
     resolver: zodResolver(registerSchema),
-    defaultValues: { name: "", email: "", password: "" },
+    defaultValues: { name: "", email: "", password: "", confirmPassword: "" },
   });
 
   async function onSubmit(values) {
     setServerError(null);
     try {
-      await register(values);
+      const { confirmPassword, ...payload } = values;
+      await register(payload);
       navigate("/", { replace: true });
     } catch (err) {
       setServerError(err.response?.data?.error ?? "Registration failed");
@@ -75,6 +76,20 @@ export function RegisterPage() {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Password</FormLabel>
+                <FormControl>
+                  <Input type="password" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="confirmPassword"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Confirm Password</FormLabel>
                 <FormControl>
                   <Input type="password" {...field} />
                 </FormControl>
